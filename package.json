@@ -1,6 +1,6 @@
 {
-  "name": "atom-package-manager",
-  "description": "Atom package manager",
+  "name": "substance-package-manager",
+  "description": "Substance package manager",
   "version": "1.12.7",
   "license": "MIT",
   "repository": {
@@ -12,7 +12,7 @@
   },
   "main": "./lib/apm.js",
   "bin": {
-    "apm": "./bin/apm"
+    "spm": "./bin/spm"
   },
   "scripts": {
     "build": "node script/check-version.js && grunt",
