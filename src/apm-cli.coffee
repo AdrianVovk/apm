@@ -65,14 +65,14 @@ parseOptions = (args=[]) ->
   options = yargs(args).wrap(100)
   options.usage """
 
-    apm - Atom Package Manager powered by https://atom.io
+    spm - Substance Package Manager powered by https://atom.io
 
-    Usage: apm <command>
+    Usage: spm <command>
 
     where <command> is one of:
     #{wordwrap(4, 80)(Object.keys(commands).sort().join(', '))}.
 
-    Run `apm help <command>` to see the more details about a specific command.
+    Run `spm help <command>` to see the more details about a specific command.
   """
   options.alias('v', 'version').describe('version', 'Print the apm version')
   options.alias('h', 'help').describe('help', 'Print this usage message')
@@ -114,7 +114,7 @@ printVersions = (args, callback) ->
         pythonVersion ?= ''
         gitVersion ?= ''
         versions =  """
-          #{'apm'.red}  #{apmVersion.red}
+          #{'spm'.red}  #{apmVersion.red}
           #{'npm'.green}  #{npmVersion.green}
           #{'node'.blue} #{nodeVersion.blue}
           #{'python'.yellow} #{pythonVersion.yellow}
