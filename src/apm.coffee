@@ -9,7 +9,7 @@ module.exports =
     if process.platform is 'win32' then process.env.USERPROFILE else process.env.HOME
 
   getAtomDirectory: ->
-    process.env.ATOM_HOME ? path.join(@getHomeDirectory(), '.atom')
+    process.env.ATOM_HOME ? path.join(@getHomeDirectory(), '.substance-ide')
 
   getCacheDirectory: ->
     path.join(@getAtomDirectory(), '.apm')
@@ -39,9 +39,9 @@ module.exports =
           appLocation = '/Applications/Atom.app' unless appLocation
           callback("#{appLocation}/Contents/Resources/app.asar")
       when 'linux'
-        appLocation = '/usr/local/share/atom/resources/app.asar'
+        appLocation = '/usr/local/share/substance-ide/resources/app.asar'
         unless fs.existsSync(appLocation)
-          appLocation = '/usr/share/atom/resources/app.asar'
+          appLocation = '/usr/share/substance-ide/resources/app.asar'
         process.nextTick -> callback(appLocation)
       when 'win32'
         process.nextTick ->
@@ -49,7 +49,7 @@ module.exports =
           callback(programFilesPath)
 
   getReposDirectory: ->
-    process.env.ATOM_REPOS_HOME ? path.join(@getHomeDirectory(), 'github')
+    process.env.ATOM_REPOS_HOME ? path.join(@getHomeDirectory(), 'SubstanceProjects')
 
   getElectronUrl: ->
     process.env.ATOM_ELECTRON_URL ? 'https://atom.io/download/atom-shell'
