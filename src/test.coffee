@@ -15,7 +15,7 @@ class Test extends Command
 
     options.usage """
       Usage:
-        apm test
+        spm test
 
       Runs the package's tests contained within the spec directory (relative
       to the current working directory).
@@ -30,7 +30,7 @@ class Test extends Command
 
     atomCommand = options.argv.path if options.argv.path
     unless fs.existsSync(atomCommand)
-      atomCommand = 'atom'
+      atomCommand = 'substance-ide'
       atomCommand += '.cmd' if process.platform is 'win32'
 
     packagePath = process.cwd()
