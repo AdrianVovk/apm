@@ -1,13 +1,7 @@
 {
-<<<<<<< HEAD
   "name": "substance-package-manager",
   "description": "Substance package manager",
-  "version": "1.15.0",
-=======
-  "name": "atom-package-manager",
-  "description": "Atom package manager",
   "version": "1.15.1",
->>>>>>> 9ae0076181defb1b7e5b384a468f99a3c736c942
   "license": "MIT",
   "repository": {
     "type": "git",
