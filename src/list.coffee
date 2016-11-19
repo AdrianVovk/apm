@@ -145,7 +145,7 @@ class List extends Command
         @logPackages(packages, options)
 
         @listGitPackages options, (error, packages) =>
-          @logPackages(packages, options)
+          @logPackages(packages, options) if packages.length > 0
 
   listPackagesAsJson: (options, callback = ->) ->
     output =

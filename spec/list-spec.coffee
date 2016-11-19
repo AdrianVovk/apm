@@ -20,6 +20,13 @@ createFakePackage = (type, metadata) ->
   fs.makeTreeSync targetFolder
   fs.writeFileSync path.join(targetFolder, 'package.json'), JSON.stringify(metadata)
 
+removeFakePackage = (type, name) ->
+  packagesFolder = switch type
+    when "user", "git" then "packages"
+    when "dev" then path.join("dev", "packages")
+  targetFolder = path.join(process.env.ATOM_HOME, packagesFolder, name)
+  fs.removeSync(targetFolder)
+
 describe 'apm list', ->
   [resourcePath, atomHome] = []
 
@@ -56,10 +63,6 @@ describe 'apm list', ->
     fs.makeTreeSync badPackagePath
     fs.writeFileSync path.join(badPackagePath, "file.txt"), "some fake stuff"
 
-  it 'lists the packages included the _atomPackages section of the package.json', ->
-    listPackages [], ->
-      expect(console.log.argsForCall[1][0]).toContain 'test-module@1.0.0'
-
   it 'lists the installed packages', ->
     listPackages [], ->
       lines = console.log.argsForCall.map((arr) -> arr.join(' '))
@@ -94,3 +97,29 @@ describe 'apm list', ->
       expect(json.dev).toEqual [name: 'dev-package', version: '1.0.0']
       expect(json.git).toEqual [name: 'git-package', version: '1.0.0', apmInstallSource: apmInstallSource]
       expect(json.user).toEqual [name: 'user-package', version: '1.0.0']
+
+  describe 'when a section is empty', ->
+    it 'does not list anything for Dev and Git sections', ->
+      removeFakePackage 'git', 'git-package'
+      removeFakePackage 'dev', 'dev-package'
+      listPackages [], ->
+        output = console.log.argsForCall.map((arr) -> arr.join(' ')).join('\n')
+        expect(output).not.toMatch /Git Packages/
+        expect(output).not.toMatch /git-package/
+        expect(output).not.toMatch /Dev Packages.*1/
+        expect(output).not.toMatch /dev-package@1\.0\.0/
+        expect(output).not.toMatch /(empty)/
+
+    it 'displays "empty" for User section', ->
+      removeFakePackage 'user', 'user-package'
+      listPackages [], ->
+        lines = console.log.argsForCall.map((arr) -> arr.join(' '))
+        expect(lines[0]).toMatch /Built-in Atom Packages.*1/
+        expect(lines[1]).toMatch /test-module@1\.0\.0/
+        expect(lines[3]).toMatch /Dev Packages.*1/
+        expect(lines[4]).toMatch /dev-package@1\.0\.0/
+        expect(lines[6]).toMatch /Community Packages.*0/
+        expect(lines[7]).toMatch /(empty)/
+        expect(lines[9]).toMatch /Git Packages.*1/
+        expect(lines[10]).toMatch /git-package@1\.0\.0/
+        expect(lines.join("\n")).not.toContain '.bin' # ensure invalid packages aren't listed
