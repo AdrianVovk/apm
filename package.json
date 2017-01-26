@@ -1,7 +1,7 @@
 {
   "name": "substance-package-manager",
   "description": "Substance package manager",
-  "version": "1.15.1",
+  "version": "1.15.3",
   "license": "MIT",
   "repository": {
     "type": "git",
